@@ -29,7 +29,7 @@ export const Content = styled.div`
     }
 
     input {
-      background: #232129;
+      /* background: #232129;
       border-radius: 10px;
       border: 2px solid #232129;
       padding: 16px;
@@ -38,14 +38,14 @@ export const Content = styled.div`
 
       &::placeholder {
         color: #666360;
-      }
+      } */
 
       & + input {
         margin-top: 8px;
       }
     }
 
-    button {
+    /* button {
       background: #ff9000;
       height: 56px;
       border-radius: 10px;
@@ -61,7 +61,7 @@ export const Content = styled.div`
       &:hover {
         background: ${shade(0.2, '#ff9000')};
       }
-    }
+    } */
 
     a {
       color: #f4ede8;
