@@ -11,18 +11,17 @@ interface ToastContainerProps {
 }
 
 const ToastContainer: React.FC<ToastContainerProps> = ({ messages }) => {
-  const messagesWithTransition = useTransition(
-    messages,
-    message => message.id,
-    {
-      from: { rigth: '-120%' },
-    },
-  );
+  const messagesWithTransition = useTransition(messages, {
+    from: { rigth: '-120%' },
+    enter: { rigth: '0%' },
+    leave: { right: '-120%' },
+    keys: message => message.id,
+  });
 
   return (
     <Container>
-      {messages.map(message => (
-        <Toast key={message.id} message={message} />
+      {messagesWithTransition((style, message) => (
+        <Toast key={message.id} style={style} message={message} />
       ))}
     </Container>
   );
