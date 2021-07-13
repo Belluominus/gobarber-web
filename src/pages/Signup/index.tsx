@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useEffect } from 'react';
 import { FiArrowLeft, FiMail, FiUser, FiLock } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
@@ -16,7 +16,10 @@ import { Container, Content, AnimationContainer, Background } from './styles';
 
 const SignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
-  const { addToast } = useToast();
+  const { addToast, setToastPosition } = useToast();
+
+  useEffect(() => setToastPosition('left'), [setToastPosition]);
+
   const handleSubmit = useCallback(
     async (data: unknown) => {
       try {
@@ -39,15 +42,12 @@ const SignUp: React.FC = () => {
           formRef.current?.setErrors(errors);
         }
 
-        addToast(
-          {
-            type: 'error',
-            title: 'Erro na criação de usuário',
-            description:
-              'Ocorreu um erro ao criar o usuário, cheque os campos Obrigatórios',
-          },
-          'left',
-        );
+        addToast({
+          type: 'error',
+          title: 'Erro na criação de usuário',
+          description:
+            'Ocorreu um erro ao criar o usuário, cheque os campos Obrigatórios',
+        });
       }
     },
     [addToast],

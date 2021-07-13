@@ -11,8 +11,9 @@ export interface ToastMessage {
 }
 
 interface ToastContextData {
-  addToast(message: Omit<ToastMessage, 'id'>, position: 'left' | 'right'): void;
+  addToast(message: Omit<ToastMessage, 'id'>): void;
   removeToast(id: string): void;
+  setToastPosition(position: string): void;
 }
 
 const ToastContext = createContext<ToastContextData>({} as ToastContextData);
@@ -20,11 +21,9 @@ const ToastContext = createContext<ToastContextData>({} as ToastContextData);
 const ToastProvider: React.FC = ({ children }) => {
   const [messages, setMessages] = useState<ToastMessage[]>([]);
   const [position, setPosition] = useState<'left' | 'right'>('right');
+
   const addToast = useCallback(
-    (
-      { type, title, description }: Omit<ToastMessage, 'id'>,
-      parsePosition: 'left' | 'right',
-    ) => {
+    ({ type, title, description }: Omit<ToastMessage, 'id'>) => {
       const id = uuid();
 
       const toast = {
@@ -35,7 +34,6 @@ const ToastProvider: React.FC = ({ children }) => {
       };
 
       setMessages(oldMessages => [...oldMessages, toast]);
-      setPosition(parsePosition);
     },
     [],
   );
@@ -44,8 +42,12 @@ const ToastProvider: React.FC = ({ children }) => {
     setMessages(state => state.filter(message => message.id !== id));
   }, []);
 
+  const setToastPosition = useCallback((pos: 'left' | 'right') => {
+    setPosition(pos);
+  }, []);
+
   return (
-    <ToastContext.Provider value={{ addToast, removeToast }}>
+    <ToastContext.Provider value={{ addToast, removeToast, setToastPosition }}>
       {children}
       <ToastContainer messages={messages} position={position} />
     </ToastContext.Provider>

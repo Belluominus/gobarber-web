@@ -1,10 +1,9 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useEffect } from 'react';
 import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
 import { FormHandles } from '@unform/core';
 import { Link } from 'react-router-dom';
-import { position } from 'polished';
 import logoImg from '../../assets/logo.svg';
 import getValidationErrors from '../../utils/getValidationErrors';
 
@@ -24,7 +23,9 @@ const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
   const { user, singIn } = useAuth();
-  const { addToast } = useToast();
+  const { addToast, setToastPosition } = useToast();
+
+  useEffect(() => setToastPosition('right'), [setToastPosition]);
 
   const handleSubmit = useCallback(
     async (data: SingInFormData) => {
@@ -52,15 +53,11 @@ const SignIn: React.FC = () => {
           formRef.current?.setErrors(errors);
         }
 
-        addToast(
-          {
-            type: 'error',
-            title: 'Erro na autenticação',
-            description:
-              'Ocorreu um erro ao fazer login, cheque as credenciais',
-          },
-          'right',
-        );
+        addToast({
+          type: 'error',
+          title: 'Erro na autenticação',
+          description: 'Ocorreu um erro ao fazer login, cheque as credenciais',
+        });
       }
     },
     [singIn, addToast],

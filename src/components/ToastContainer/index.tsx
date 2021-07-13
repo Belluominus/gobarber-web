@@ -19,18 +19,14 @@ const ToastContainer: React.FC<ToastContainerProps> = ({
     from: {
       opacity: 0,
       transform: `${
-        position === 'right'
-          ? 'translate3d(120%,0,0)'
-          : 'translate3d(-120%,0,0)'
+        position === 'right' ? 'translateX(120%)' : 'translateX(-120%)'
       }`,
     },
-    enter: { opacity: 1, transform: 'translate3d(0%,0,0)' },
+    enter: { opacity: 1, transform: 'translateX(0)' },
     leave: {
       opacity: 0,
       transform: `${
-        position === 'right'
-          ? 'translate3d(120%,0,0)'
-          : 'translate3d(-120%,0,0)'
+        position === 'right' ? 'translateX(120%)' : 'translateX(-120%)'
       }`,
     },
     keys: message => message.id,
