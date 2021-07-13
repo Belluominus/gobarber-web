@@ -1,9 +1,22 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const Container = styled.div`
+interface ToastPosition {
+  position: 'left' | 'right';
+}
+
+const toastPositionVariations = {
+  right: css`
+    right: 0;
+  `,
+  left: css`
+    left: 0;
+  `,
+};
+export const Container = styled.div<ToastPosition>`
   position: absolute;
-  right: 0;
   top: 0;
   padding: 30px;
   overflow: hidden;
+
+  ${props => toastPositionVariations[props.position]}
 `;
